@@ -1,108 +1,107 @@
-from tkinter import *
-import tkinter.messagebox
-tk = Tk()
-tk.title("Tic Tac Toe")
+import random
+import sys
 
-pa = StringVar()
-playerb = StringVar()
-p1 = StringVar()
-p2 = StringVar()
-
-player1_name = Entry(tk, textvariable=p1, bd=5)
-player1_name.grid(row=1, column=1, columnspan=8)
-player2_name = Entry(tk, textvariable=p2, bd=5)
-player2_name.grid(row=2, column=1, columnspan=8)
-
-bclick = True
-flag = 0
-
-def disableButton():
-    button1.configure(state=DISABLED)
-    button2.configure(state=DISABLED)
-    button3.configure(state=DISABLED)
-    button4.configure(state=DISABLED)
-    button5.configure(state=DISABLED)
-    button6.configure(state=DISABLED)
-    button7.configure(state=DISABLED)
-    button8.configure(state=DISABLED)
-    button9.configure(state=DISABLED)
+board=[i for i in range(0,9)]
+player, computer = '',''
 
 
+moves=((1,7,3,9),(5,),(2,4,6,8))
+winners=((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6))
+tab=range(1,10)
 
-def btnClick(buttons):
-    global bclick, flag, player2_name, player1_name, playerb, pa
-    if buttons["text"] == " " and bclick == True:
-        buttons["text"] = "X"
-        bclick = False
-        playerb = p2.get() + " Wins!"
-        pa = p1.get() + " Wins!"
-        checkForWin()
-        flag += 1
+def print_board():
+    x=1
+    for i in board:
+        end = ' | '
+        if x%3 == 0:
+            end = ' \n'
+            if i != 1: end+='---------\n';
+        char=' '
+        if i in ('X','O'): char=i;
+        x+=1
+        print(char,end=end)
+        
+def select_char():
+    chars=('X','O')
+    if random.randint(0,1) == 0:
+        return chars[::-1]
+    return chars
 
+def can_move(brd, player, move):
+    if move in tab and brd[move-1] == move-1:
+        return True
+    return False
 
-    elif buttons["text"] == " " and bclick == False:
-        buttons["text"] = "O"
-        bclick = True
-        checkForWin()
-        flag += 1
-    else:
-        tkinter.messagebox.showinfo("Tic-Tac-Toe", "Button already Clicked!")
+def can_win(brd, player, move):
+    places=[]
+    x=0
+    for i in brd:
+        if i == player: places.append(x);
+        x+=1
+    win=True
+    for tup in winners:
+        win=True
+        for ix in tup:
+            if brd[ix] != player:
+                win=False
+                break
+        if win == True:
+            break
+    return win
 
-def checkForWin():
-    if (button1['text'] == 'X' and button2['text'] == 'X' and button3['text'] == 'X' or):
-        disableButton()
-        tkinter.messagebox.showinfo("Tic-Tac-Toe", pa)
+def make_move(brd, player, move, undo=False):
+    if can_move(brd, player, move):
+        brd[move-1] = player
+        win=can_win(brd, player, move)
+        if undo:
+            brd[move-1] = move-1
+        return (True, win)
+    return (False, False)
 
-    elif(flag == 8):
-        tkinter.messagebox.showinfo("Tic-Tac-Toe", "It is a Tie")
+# AI goes here
+def computer_move():
+    move=-1
+    # If I can win, others don't matter.
+    for i in range(1,10):
+        if make_move(board, computer, i, True)[1]:
+            move=i
+            break
+    if move == -1:
+        # If player can win, block him.
+        for i in range(1,10):
+            if make_move(board, player, i, True)[1]:
+                move=i
+                break
+    if move == -1:
+        # Otherwise, try to take one of desired places.
+        for tup in moves:
+            for mv in tup:
+                if move == -1 and can_move(board, computer, mv):
+                    move=mv
+                    break
+    return make_move(board, computer, move)
 
-    elif (button1['text'] == 'O' and button2['text'] == 'O' and button3['text'] == 'O' or
-          button4['text'] == 'O' and button5['text'] == 'O' and button6['text'] == 'O' or
-          button7['text'] == 'O' and button8['text'] == 'O' and button9['text'] == 'O' or
-          button1['text'] == 'O' and button5['text'] == 'O' and button9['text'] == 'O' or
-          button3['text'] == 'O' and button5['text'] == 'O' and button7['text'] == 'O' or
-          button1['text'] == 'O' and button2['text'] == 'O' and button3['text'] == 'O' or
-          button1['text'] == 'O' and button4['text'] == 'O' and button7['text'] == 'O' or
-          button2['text'] == 'O' and button5['text'] == 'O' and button8['text'] == 'O' or
-          button7['text'] == 'O' and button6['text'] == 'O' and button9['text'] == 'O'):
-        disableButton()
-        tkinter.messagebox.showinfo("Tic-Tac-Toe", playerb)
+def space_exist():
+    return board.count('X') + board.count('O') != 9
 
+player, computer = select_char()
+print('Player is [%s] and computer is [%s]' % (player, computer))
+result='%%% Deuce ! %%%'
+while space_exist():
+    print_board()
+    print('# Make your move ! [1-9] : ', end='')
+    move = int(input())
+    moved, won = make_move(board, player, move)
+    if not moved:
+        print(' >> Invalid number ! Try again !')
+        continue
+    #
+    if won:
+        result='*** Congratulations ! You won ! ***'
+        break
+    elif computer_move()[1]:
+        result='=== You lose ! =='
+        break;
 
-buttons = StringVar()
-
-label = Label( tk, text="Player 1:", font='Times 20 bold', bg='white', fg='black', height=1, width=8)
-label.grid(row=1, column=0)
-
-
-label = Label( tk, text="Player 2:", font='Times 20 bold', bg='white', fg='black', height=1, width=8)
-label.grid(row=2, column=0)
-
-button1 = Button(tk, text=" ", font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button1))
-button1.grid(row=3, column=0)
-
-button2 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button2))
-button2.grid(row=3, column=1)
-
-button3 = Button(tk, text=' ',font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button3))
-button3.grid(row=3, column=2)
-
-button4 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button4))
-button4.grid(row=4, column=0)
-
-button5 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button5))
-button5.grid(row=4, column=1)
-
-button6 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button6))
-button6.grid(row=4, column=2)
-
-button7 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button7))
-button7.grid(row=5, column=0)
-
-button8 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button8))
-button8.grid(row=5, column=1)
-
-button9 = Button(tk, text=' ', font='Times 20 bold', bg='gray', fg='white', height=4, width=8, command=lambda: btnClick(button9))
-button9.grid(row=5, column=2)
-
-tk.mainloop()
+print_board()
+print(result)
