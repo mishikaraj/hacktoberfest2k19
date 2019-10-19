@@ -34,6 +34,7 @@ class cube implements Runnable //Something missing in the code here related to i
 
 class generate implements Runnable
 {
+
     public void run()
     {
         int num=0;
