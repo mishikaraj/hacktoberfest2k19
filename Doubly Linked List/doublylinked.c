@@ -102,6 +102,11 @@ int insertdata(int x)
 	    n->data=x;
 	    node *b=insertele->next;
 	    node *N =insertele;
+	     struct node *newnode=malloc(sizeof(struct node));
+		newnode->data=N;
+		newnode->next=NULL;
+		newnode->prev=NULL;
+		top=newnode;
 	    //Write 3 lines of code which links all the nodes in the linked list while inserting the data into the list.
 	    if(b!=NULL)
 		b->prev=n;
@@ -114,7 +119,7 @@ void display()
 	while(disp!=NULL)
 	{
 	    cout<<" "<<disp->data;
-	    if(_______)//write the particular condition for which the while condition needs to end
+	    if(disp==NULL)//write the particular condition for which the while condition needs to end
 	    {
 		break;
 	    }
@@ -127,7 +132,7 @@ void deleteint(int x)
     node *del=top;
     if(del->data == x)
     {
-        if(_______)// Write the condition for which TOP should be NULL while deleting a particular node in a doubly linked list.
+        if(del->next!=NULL)// Write the condition for which TOP should be NULL while deleting a particular node in a doubly linked list.
         {
             top=NULL;
             return;
