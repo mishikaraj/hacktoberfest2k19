@@ -155,7 +155,7 @@ void deleteint(int x)
         }
         del->next=delsuc->next;
         if(delsuc->next!=NULL)
-      		//Write the step for which a doubly linked list needs to be connected after deleting an element from the list.			
+      					
     }
 }
 
