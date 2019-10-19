@@ -9,7 +9,12 @@ int main()
     int num,ch;
     printf("enter the  two digit number of your choice");
     scanf("%d",&num);
-    do{
+    while(n<3)
+        int res,fin;
+            res=decr(num);
+            fin=decr(res);
+            printf("the decremented number is %d\n",fin);
+            break;
     printf("This is the following menu options\n");
     printf("----------1.Choose here for incrementing the number-----------------\n");
     printf("----------2.Choose here for decrementing the number-------------------\n");
@@ -37,7 +42,7 @@ int main()
             return 0;
         }
     }
-    }while(ch!=3);
+    }
     return 0;
     }       
 int incr(int x)
