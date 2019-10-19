@@ -9,7 +9,19 @@ int searchint(int x);
 
 int compare_fn(int a,int b)
 {
-    //Write the compare function for the variables 'a' and 'b' and return the value
+    if(a<b)
+    {
+	    cout<<"b is greater";
+    }
+ else if(a>b)
+	{
+		cout<<"b is greater";
+ }
+	else
+		cout<<"a and b is equal";
+	
+		
+		//Write the compare function for the variables 'a' and 'b' and return the value
 }
 
 int compare_no=1;
@@ -17,8 +29,8 @@ int compare_no=1;
 struct node
 {
 	int data;
-	node *prev;
-	node *next;
+	struct node *prev;
+	struct node *next;
 };
 
 //A missing line here which initialises the top condition.
@@ -71,7 +83,7 @@ int insertdata(int x)
 {
     if(top==NULL)
     {
-        //Write a code for this particular condition where TOP == NULL
+        cout<<"overflow";//Write a code for this particular condition where TOP == NULL
     }
     else if(compare_fn(top->data ,x)==compare_no)
     {
