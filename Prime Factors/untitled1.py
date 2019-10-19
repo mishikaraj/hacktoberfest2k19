@@ -7,18 +7,19 @@ Original file is located at
     https://colab.research.google.com/drive/1xD13UWPrEyWxw5sNsPI7o-Bxc90wbkCQ
 """
 
-n=int(input())
+n=int(input("enter an interger:"))
+print("Factors are:")
 i=1
-c=0
-while i<=n:
-    j=1
+while(i<=n):
     f=0
     if(n%i==0):
-        while j<=i:
+        j=1
+        while (j<=i):
           if(i%j==0):
             f+=1
         j+=1
     if(f==2):
-        c=c+1
+        print(i)
     i=i+1
-print(c)
+
+
