@@ -3,7 +3,7 @@ import java.lang.*
 
 
 class square implements Runnable
-{
+ {
     int y;
     public square(int x)
     {
