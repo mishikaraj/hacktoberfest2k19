@@ -26,7 +26,7 @@ class cube implements Runnable //Something missing in the code here related to i
     cube(int x) {
 		y = x;
 	}
-    //Use a constructor to assign the value of y
+   
     public void run()
     {
         System.out.println("Cube of the number: "+(y*y*y));
