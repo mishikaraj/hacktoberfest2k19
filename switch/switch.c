@@ -8,7 +8,12 @@ int main()
     int num,ch;
     printf("enter the  two digit number of your choice");
     scanf("%d",&num);
-    while(ch!=2){
+    while(num<3){
+        int res;
+            res=decr(num);
+            printf("the decremented number is %d\n",res);
+            break;
+            
     printf("This is the following menu options\n");
     printf("----------1.Choose here for incrementing the number-----------------\n");
     printf("----------2.Choose here for decrementing the number-------------------\n");
@@ -16,7 +21,7 @@ int main()
     printf("enter the choice");
     scanf("%d",&ch);
     
-    switch(num) {
+    switch(ch) {
         case 1: {
             int res;
             res=incr(num);
