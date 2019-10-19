@@ -43,7 +43,7 @@ class generate implements Runnable
                 System.out.println("Number generated: "+num);
                 Thread t1= new Thread(new square(num));
                 t1.start();
-    }
+   }
 }
 
 public class p3b
