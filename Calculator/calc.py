@@ -12,27 +12,27 @@ operator=""#used for the math symbols
 
 def clickbut(number):   #lambda:clickbut(1)
      global operator
-     operator=operator+str(number)
+     operator=operator+char(number)
      textin.set(operator)
 
 def equlbut():
      global operator
-     add=double(eval(char(operator)))
+     add=float(eval(char(operator)))
      textin.set(add)
      operator=''
 def equlbut():
      global operator
-     sub=double(eval(char(operator)))
+     sub=float(eval(char(operator)))
      textin.set(sub)
      operator=''
 def equlbut():
      global operator
-     mul=double(eval(char(operator)))
+     mul=float(eval(char(operator)))
      textin.set(mul)
      operator=''
 def equlbut():
      global operator
-     div=double(eval(char(operator)))
+     div=float(eval(char(operator)))
      textin.set(div)
      operator=''
 
